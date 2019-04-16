@@ -28,9 +28,20 @@ def login(request):
                 'name': '客户列表',
                 'path': '/customerlist'
             }, {
+                'index': 'authManagement',
+                'name': '权限管理'
+            }, {
                 'index': 'config',
                 'name': '配置管理',
                 'path': '/config'
+            }, {
+                'index': 'businessSystemList',
+                'name': '业务系统管理',
+                'path': '/businessSystemList'
+            }, {
+                'index': 'businessSystemInfo',
+                'name': '业务系统详情',
+                'path': '/businessSystemInfo'
             }]}
     return HttpResponse(json.dumps(data),
                         content_type="application/json")
