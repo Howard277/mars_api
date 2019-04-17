@@ -1,6 +1,9 @@
 import json
 import datetime
 from django.db.models import Model, QuerySet
+import logging
+
+log = logging.getLogger('djangodemo')
 
 
 # 将Model转换为字典
@@ -44,3 +47,23 @@ def _convert_to_dict(self, fields):
         else:
             d[attr] = getattr(self, attr)
     return d
+
+
+# http日志装饰器
+def http_log(func):
+    def wrapper(*args, **kw):
+        if len(args) > 0:
+            request = args[0]
+            method = request.method
+            params = {}
+            if method == 'GET':
+                params = request.GET
+            if method == 'POST':
+                if request.content_type == 'application/x-www-form-urlencoded':
+                    params = request.POST
+                else:
+                    params = request.body.decode(encoding='utf-8')
+            log.info('方法调用记录：%s %s %s :' % (method, func.__name__, json.dumps(params)))
+        return func(*args, **kw)
+
+    return wrapper

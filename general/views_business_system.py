@@ -1,10 +1,14 @@
 import json
 from .models import BusinessSystem
 from django.http import HttpResponse
-from mars_api.tools import queryset_to_dict
+from mars_api.tools import queryset_to_dict, http_log
+import logging
+
+log = logging.getLogger('djangodemo')
 
 
 # 保存“业务系统”数据
+@http_log
 def post_business_system(request):
     result = {'status': False}
     try:
@@ -14,12 +18,13 @@ def post_business_system(request):
         business_system.save()
         result = {'status': True}
     except Exception as ex:
-        pass
+        log.error(ex)
     return HttpResponse(json.dumps(result),
                         content_type="application/json")
 
 
 # 获取业务系统分页数据
+@http_log
 def get_business_system_page(request):
     get = request.GET
     page_index = get.get('pageIndex', 1)
