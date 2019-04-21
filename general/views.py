@@ -24,9 +24,9 @@ def login(request):
                 'index': 'customermanagement',
                 'name': '客户管理'
             }, {
-                'index': 'customerlist',
+                'index': 'customerList',
                 'name': '客户列表',
-                'path': '/customerlist'
+                'path': '/customerList'
             }, {
                 'index': 'authManagement',
                 'name': '权限管理'
@@ -42,6 +42,13 @@ def login(request):
                 'index': 'businessSystemInfo',
                 'name': '业务系统详情',
                 'path': '/businessSystemInfo'
+            }, {
+                'index': 'candidateManagement',
+                'name': '候选人管理'
+            }, {
+                'index': 'candidateList',
+                'name': '候选人列表',
+                'path': '/candidateList'
             }]}
     return HttpResponse(json.dumps(data),
                         content_type="application/json")
