@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from general import urls as general_urls
+from exam import urls as exam_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('general/', include(general_urls))
+    path('general/', include(general_urls)),
+    path('exam/', include(exam_urls))
 ]

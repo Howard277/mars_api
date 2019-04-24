@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mars_api',
     'general',
+    'exam',
 ]
 
 MIDDLEWARE = [
