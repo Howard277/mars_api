@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 # 测试题模型
 class Question(models.Model):
-    q_title = models.CharField(max_length=200)  # 测试题问题
+    q_title = models.CharField(max_length=200)  # 测试题考题
     q_scope = models.CharField(max_length=50)  # 测试题范围
     q_type = models.CharField(max_length=20)  # 测试题类型
     q_content = models.CharField(max_length=500)  # 测试题内容
@@ -23,7 +23,7 @@ class Exam(models.Model):
 # 答题人给出的答案
 class Answer(models.Model):
     exam_id = models.IntegerField()  # 试卷编号
-    q_id = models.IntegerField()  # 问题ID
+    q_id = models.IntegerField()  # 考题ID
     q_answer = models.CharField(max_length=500)  # 答题人给出的答案。如果是选择题用|作为分隔符。
     score = models.IntegerField()  # 得分
     create_time = models.DateTimeField(auto_now=True)  # 答题时间

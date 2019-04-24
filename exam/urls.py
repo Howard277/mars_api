@@ -3,4 +3,5 @@ from .views import *
 
 urlpatterns = [
     path('getQuestionById', get_question_by_id),
+    path('saveQuestion', save_question)
 ]
