@@ -12,8 +12,17 @@ class Question(models.Model):
     q_standard_answer = models.CharField(max_length=500)  # 测试题标准答案。如果是选择题用|作为分隔符。
 
 
+# 试卷模板
+class ExamTemplate(models.Model):
+    template_name = models.CharField(max_length=200)  # 试卷模板名称
+    question_id_list = models.CharField(max_length=2000)  # 考题id集合
+    creator = models.CharField(max_length=50)  # 试卷创建人
+    create_time = models.DateTimeField(auto_now=True)  # 试卷创建时间
+
+
 # 试卷信息
 class Exam(models.Model):
+    exam_template_id = models.IntegerField(default=1)  # 试卷模板id
     exam_name = models.CharField(max_length=100)  # 试卷名称
     creator = models.CharField(max_length=50)  # 试卷创建人
     create_time = models.DateTimeField(auto_now=True)  # 试卷创建时间

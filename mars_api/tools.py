@@ -6,6 +6,27 @@ import logging
 log = logging.getLogger('djangodemo')
 
 
+# 保存模型
+def save_model(request, model):
+    obj = model()  # type:Model
+    # 通过请求类型，判断使用哪种方式获取参数
+    content_type = request.content_type
+    params = {}
+    if content_type == 'application/x-www-form-urlencoded':
+        params = request.POST
+    else:
+        params = json.loads(request.body.decode(encoding='utf-8'))  # type:dict
+    id = params.get('id', '')
+    if len(id) > 0:
+        obj = model.objects.get(id=id)
+    for k, v in params.items():
+        kt = _camel_to_flat(k)
+        if kt in obj.__dict__:
+            obj.__dict__[kt] = v
+    obj.save()
+    return obj
+
+
 # 将Model转换为字典
 def model_to_dict(self):
     if isinstance(self, Model):
@@ -67,3 +88,16 @@ def http_log(func):
         return func(*args, **kw)
 
     return wrapper
+
+
+# 驼峰字符串转下划线分割字符串
+def _camel_to_flat(source):
+    target = ''
+    for c in source:
+        i = ord(c)
+        if i >= 65 and i <= 90:
+            target += '_'
+            target += chr(i + 32)
+        else:
+            target += c
+    return target
