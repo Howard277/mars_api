@@ -49,6 +49,33 @@ def login(request):
                 'index': 'candidateList',
                 'name': '候选人列表',
                 'path': '/candidateList'
+            }, {
+                'index': 'examManagement',
+                'name': '考试管理'
+            }, {
+                'index': 'questionList',
+                'name': '考题列表',
+                'path': '/questionList'
+            }, {
+                'index': 'questionInfo',
+                'name': '考题详情',
+                'path': '/questionInfo'
+            }, {
+                'index': 'examTemplateList',
+                'name': '试卷模板列表',
+                'path': '/examTemplateList'
+            }, {
+                'index': 'examTemplateInfo',
+                'name': '试卷模板详情',
+                'path': '/examTemplateInfo'
+            }, {
+                'index': 'examList',
+                'name': '试卷列表',
+                'path': '/examList'
+            }, {
+                'index': 'examInfo',
+                'name': '试卷详情',
+                'path': '/examInfo'
             }]}
     return HttpResponse(json.dumps(data),
                         content_type="application/json")

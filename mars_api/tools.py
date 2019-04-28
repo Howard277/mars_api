@@ -17,7 +17,7 @@ def save_model(request, model):
     else:
         params = json.loads(request.body.decode(encoding='utf-8'))  # type:dict
     id = params.get('id', '')
-    if len(id) > 0:
+    if id is not None and len(id) > 0:
         obj = model.objects.get(id=id)
     for k, v in params.items():
         kt = _camel_to_flat(k)

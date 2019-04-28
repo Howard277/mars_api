@@ -28,13 +28,13 @@ def get_question_by_id(request):
 def get_question_by_condition(request):
     params = json.loads(request.body.decode(encoding='utf-8'))
     page_index = params.get('pageIndex', 0)  # 获取页索引
-    page_size = params.get('pageSize', 0)  # 获取页尺寸
+    page_size = params.get('pageSize', 10)  # 获取页尺寸
     condition = params.get('condition', '')
     q_list = Question.objects.all()
     if len(condition) > 0:
         q_list = q_list.filter(Q(title__contains=condition) | Q(scope=condition))
     count = q_list.count()
-    q_list = q_list[page_index * page_size, (page_index + 1) * page_size]
+    q_list = q_list[(page_index - 1) * page_size: page_index * page_size]
     data = {'pageIndex': page_index, 'pageSize': page_size, 'count': count, 'data': queryset_to_dict(q_list)}
     return HttpResponse(json.dumps(data),
                         content_type="application/json")
@@ -62,13 +62,13 @@ def get_exam_template_by_id(request):
 def get_exam_template_condition(request):
     params = json.loads(request.body.decode(encoding='utf-8'))
     page_index = params.get('pageIndex', 0)  # 获取页索引
-    page_size = params.get('pageSize', 0)  # 获取页尺寸
+    page_size = params.get('pageSize', 10)  # 获取页尺寸
     condition = params.get('condition', '')
     et_list = ExamTemplate.objects.all()
     if len(condition) > 0:
         et_list = et_list.filter(template_name__contains=condition)
     count = et_list.count()
-    et_list = et_list[page_index * page_size, (page_index + 1) * page_size]
+    et_list = et_list[page_index * page_size: (page_index + 1) * page_size]
     data = {'pageIndex': page_index, 'pageSize': page_size, 'count': count, 'data': queryset_to_dict(et_list)}
     return HttpResponse(json.dumps(data),
                         content_type="application/json")
@@ -96,20 +96,40 @@ def get_exam_by_id(request):
 def get_exam_condition(request):
     params = json.loads(request.body.decode(encoding='utf-8'))
     page_index = params.get('pageIndex', 0)  # 获取页索引
-    page_size = params.get('pageSize', 0)  # 获取页尺寸
+    page_size = params.get('pageSize', 10)  # 获取页尺寸
     condition = params.get('condition', '')
     e_list = Exam.objects.all()
     if len(condition) > 0:
         e_list = e_list.filter(
             Q(exam_name__contains=condition) | Q(exam_template_id=condition) | Q(answer_user_name=condition))
     count = e_list.count()
-    e_list = e_list[page_index * page_size, (page_index + 1) * page_size]
+    e_list = e_list[page_index * page_size: (page_index + 1) * page_size]
     data = {'pageIndex': page_index, 'pageSize': page_size, 'count': count, 'data': queryset_to_dict(e_list)}
     return HttpResponse(json.dumps(data),
                         content_type="application/json")
 
 
+# 保存答题信息
 def save_answer(request):
     answer = save_model(request, Answer)
     return HttpResponse(json.dumps(model_to_dict(answer)),
+                        content_type="application/json")
+
+
+# 通过查询条件获取答题信息
+def get_answer_condition(request):
+    params = json.loads(request.body.decode(encoding='utf-8'))
+    page_index = params.get('pageIndex', 0)  # 获取页索引
+    page_size = params.get('pageSize', 10)  # 获取页尺寸
+    exam_id = params.get('exam_id', '')
+    q_id = params.get('q_id', '')
+    a_list = Answer.objects.all()
+    if len(exam_id) > 0:
+        a_list = a_list.filter(exam_id=exam_id)
+    if len(q_id) > 0:
+        a_list = a_list.filter(q_id=q_id)
+    count = a_list.count()
+    e_list = a_list[page_index * page_size: (page_index + 1) * page_size]
+    data = {'pageIndex': page_index, 'pageSize': page_size, 'count': count, 'data': queryset_to_dict(e_list)}
+    return HttpResponse(json.dumps(data),
                         content_type="application/json")

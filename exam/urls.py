@@ -9,5 +9,7 @@ urlpatterns = [
     path('getExamTemplateById', get_exam_template_by_id),
     path('getExamTemplateCondition', get_exam_template_condition),
     path('saveExam', save_exam),
-    path('getExamById',get_exam_by_id)
+    path('getExamById', get_exam_by_id),
+    path('saveAnswer', save_answer),
+    path('getAnswerCondition', get_answer_condition)
 ]
